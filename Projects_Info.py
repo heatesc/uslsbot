@@ -79,6 +79,7 @@ class Projects_Info:
         projects[new_name] = projects.pop(proj)
         new_content = self.format_message_content(projects)
         await self.update_message(new_content)
+        return True
 
     async def update_proj_admin(self, proj, new_admin_id):
         message = await self.get_message()

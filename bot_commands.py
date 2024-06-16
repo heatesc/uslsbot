@@ -63,7 +63,7 @@ def add_cmd_get_proj_desc(tree: app_commands.CommandTree, proj_info: Projects_In
         else:
             await interaction.response.send_message(f'No description found for project {proj}')
 
-def add_cmd_update_proj_name(tree: app_commands.CommandTree, proj_info: Projects_Info):
+def add_cmd_set_proj_name(tree: app_commands.CommandTree, proj_info: Projects_Info):
     """ Add the update_proj_name command to the command tree
     
     Command description: Update the project name
@@ -74,9 +74,9 @@ def add_cmd_update_proj_name(tree: app_commands.CommandTree, proj_info: Projects
     :param proj_info: Projects_Info object
     :return: None
     """
-    @tree.command(name='update_proj_name', description='Update the project name')
+    @tree.command(name='set_proj_name', description='Update the project name')
     @app_commands.describe(proj='Project name', new_name='New project name')
-    async def update_proj_name(interaction: discord.Interaction, proj: str, new_name: str):
+    async def set_proj_name(interaction: discord.Interaction, proj: str, new_name: str):
         if interaction.user.id != OWNER_USER_ID and interaction.user.id != await proj_info.get_proj_admin(proj):
             await interaction.response.send_message('Only the owner or project admin can update project names.', ephemeral=True)
             return
@@ -226,4 +226,4 @@ def add_commands(tree: app_commands.CommandTree, proj_info: Projects_Info):
     add_cmd_project_kick_member(tree, proj_info)
     add_cmd_remove_project(tree, proj_info)
     add_cmd_change_proj_admin(tree, proj_info)
-    add_cmd_update_proj_name(tree, proj_info)
+    add_cmd_set_proj_name(tree, proj_info)
