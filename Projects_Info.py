@@ -74,7 +74,7 @@ class Projects_Info:
     async def update_proj_name(self, proj, new_name) -> bool:
         message = await self.get_message()
         projects = self.parse_message_content(message.content)
-        if not self.project_exists(proj):
+        if not await self.project_exists(proj):
             return False
         projects[new_name] = projects.pop(proj)
         new_content = self.format_message_content(projects)
