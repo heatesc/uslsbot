@@ -70,6 +70,15 @@ class Projects_Info:
 
         new_content = self.format_message_content(projects)
         await self.update_message(new_content)
+    
+    async def update_proj_name(self, proj, new_name) -> bool:
+        message = await self.get_message()
+        projects = self.parse_message_content(message.content)
+        if not self.project_exists(proj):
+            return False
+        projects[new_name] = projects.pop(proj)
+        new_content = self.format_message_content(projects)
+        await self.update_message(new_content)
 
     async def update_proj_admin(self, proj, new_admin_id):
         message = await self.get_message()
@@ -123,10 +132,15 @@ class Projects_Info:
         projects = self.parse_message_content(message.content)
         return projects.get(proj, {}).get('Description', None)
 
-    async def get_proj_admin(self, proj):
+    async def get_proj_admin(self, proj) -> int:
         message = await self.get_message()
         projects = self.parse_message_content(message.content)
-        return projects.get(proj, {}).get('Admin', None)
+        return int(projects.get(proj, {}).get('Admin', None))
+    
+    async def project_exists(self, proj):
+        message = await self.get_message()
+        projects = self.parse_message_content(message.content)
+        return proj in projects
 
     async def remove_project(self, proj):
         message = await self.get_message()
